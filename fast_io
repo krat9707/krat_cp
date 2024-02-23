@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ONLINE_JUDGE    
+/* --------------- fast io --------------- */ // begin
+namespace Fread {
+const int SIZE = 1 << 15;
+char buf[SIZE], *S, *T;
+inline char getchar() {
+	if (S == T) {
+		T = (S = buf) + fread(buf, 1, SIZE, stdin);
+		if (S == T) return '\n';
+	}
+	return *S++;
+}
+} // namespace Fread
+namespace Fwrite {
+const int SIZE = 1 << 15;
+char buf[SIZE], *S = buf, *T = buf + SIZE;
+inline void flush() {
+	fwrite(buf, 1, S - buf, stdout);
+	S = buf;
+}
+inline void putchar(char c) {
+	*S++ = c;
+	if (S == T) flush();
+}
+struct NTR {
+	~ NTR() { flush(); }
+} ztr;
+} // namespace Fwrite
+#ifdef ONLINE_JUDGE
+	#define getchar Fread :: getchar
+	#define putchar Fwrite :: putchar
+#endif
+namespace Fastio {
+struct Reader {
+	template<typename T>
+	Reader& operator >> (T& x) { x = 0; char c;
+		while (c < '0' || c > '9') c = getchar();		
+		while (c >= '0' && c <= '9') 
+			x = x * 10 + (c - '0'), c = getchar();
+		return *this;
+	}
+	Reader(){}
+} cin;
+struct Writer {
+	template<typename T>
+	Writer& operator << (T x) {
+		if (x == 0) { putchar('0'); return *this; }
+		if (x == 1) { putchar('1'); return *this; }
+	}
+	Writer& operator << (char c) 
+	    { putchar(c); return *this; }
+	Writer(){}
+} cout;
+} // namespace Fastio
+#define cin Fastio :: cin
+#define cout Fastio :: cout
+
+void solve()
+{
+
+}
+
+int main() {
+    int t; 
+    cin >> t;
+    
+    while(t--)
+        solve();
+}
