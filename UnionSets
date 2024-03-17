@@ -1,0 +1,25 @@
+int parent[SZ], sizee[SZ];
+
+int findParent(int x)
+{
+    if(x != parent[x])
+        return parent[x] = findParent(parent[x]);
+
+    return x;
+}
+
+void unionSets(int& u, int& v)
+{
+    if(sizee[u] > sizee[v])
+    {
+        sizee[u] += sizee[v];
+        parent[v] = u;
+        sizee[v] = 0;
+    }
+    else 
+    {
+        sizee[v] += sizee[u];
+        parent[u] = v;
+        sizee[u] = 0;
+    }
+}
