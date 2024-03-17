@@ -8,8 +8,14 @@ int findParent(int x)
     return x;
 }
 
-void unionSets(int& u, int& v)
+void unionSets(int u, int v)
 {
+    u = findParent(u);
+    v = findParent(v);
+
+    if(u == v)
+        return;
+
     if(sizee[u] > sizee[v])
     {
         sizee[u] += sizee[v];
