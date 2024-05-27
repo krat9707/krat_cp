@@ -1,3 +1,4 @@
+// https://codeforces.com/blog/entry/18051
 int n;  // array size
 const int N = 3e5;  // limit for array size
 ll t[2 * N];
