@@ -3,25 +3,29 @@ int n;  // array size
 const int N = 3e5;  // limit for array size
 ll t[2 * N];
 
+ll f(ll a, ll b)
+{
+    return // write function;
+}
 
 void build() 
 {  // build the tree
-    for (int i = n - 1; i > 0; --i) t[i] = t[2 * i] ^ t[2 * i + 1];
+    for (int i = n - 1; i > 0; --i) t[i] = f(t[2 * i], t[2 * i + 1]);
 }
 
 void modify(ll p, ll value) 
 {  // set value at position p
-    for (t[p += n] = value; p > 1; p /= 2) t[p / 2] = t[p] ^ t[p^1];
+    for (t[p += n] = value; p > 1; p /= 2) t[p / 2] = f(t[p], t[p^1]);
 }
 
 ll query(ll l, ll r) 
 {  // sum on interval [l, r)
     
-    ll res = 0;
+    ll res = // initialize based on req;
     for (l += n, r += n; l < r; l >>= 1, r >>= 1) 
     {
-        if (l&1) res ^= t[l++];
-        if (r&1) res ^= t[--r];
+        if (l&1) res = f(res, t[l++]);
+        if (r&1) res = f(res, t[--r]);
     }
     return res;
 }
