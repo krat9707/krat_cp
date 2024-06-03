@@ -1,0 +1,87 @@
+template <class T> class segTree {
+    int n;
+    T default_val;
+    vector<T> t;
+
+    T func(T a, T b)
+    {
+        return a + b;
+    }
+
+    void build(vector<T>& arr, int currNode, int l, int r)
+    {
+        if(l == r)
+        {
+            t[currNode] = arr[l];
+            return;
+        }
+
+        int mid = l + (r - l) / 2;
+
+        build(arr, currNode * 2, l, mid);
+        build(arr, currNode * 2 + 1, mid + 1, r);
+
+        t[currNode] = func(t[currNode * 2], t[currNode * 2 + 1]); 
+    }
+
+    void update(int pos, T val, int currNode, int l, int r)
+    {
+        if(l == r)
+        {
+            t[currNode] = val;
+            return;
+        }
+
+        int mid = l + (r - l) / 2;
+
+        if(pos <= mid)
+        {
+            update(pos, val, currNode * 2, l, mid);
+        }
+        else
+        {
+            update(pos, val, currNode * 2 + 1, mid + 1, r);
+        }
+
+        t[currNode] = func(t[currNode * 2], t[currNode * 2 + 1]);
+    }
+
+    T get(int currNode, int l, int r, int find_l, int find_r)
+    {
+        if(l > find_r || r < find_l)
+            return default_val;
+        
+        if(l == find_l && r == find_r)
+            return t[currNode];
+        
+        int mid = l + (r - l) / 2;
+        T res = func(get(currNode * 2, l, mid, find_l, min(find_r, mid))
+            , get(currNode * 2 + 1, mid + 1, r, max(find_l, mid+1), find_r));
+
+        return res;
+    }
+    
+  public:
+    segTree(int size, T def = 0) 
+    {
+        n = size;
+        default_val = def;
+        t.resize(4*n, def);
+    }
+
+  
+    void build(vector<T>& arr)
+    {
+        build(arr, 1, 0, n-1);
+    }
+    
+    T get(int l, int r)
+    {
+        return get(1, 0, n-1, l, r);
+    }
+    
+    void update(int pos, T val)
+    {
+        update(pos, val, 1, 0, n-1);
+    }
+};
