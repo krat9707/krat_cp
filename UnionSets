@@ -1,3 +1,60 @@
+// template 1 class version
+
+class UnionSet {
+public:
+    vector<int> parent;
+    vector<int> size;
+    int n;
+
+    UnionSet(int n) 
+    {
+	    this -> n = n;
+        parent.resize(n+1);
+        size.resize(n+1);
+
+        for (int i = 0; i <= n; ++i) 
+        {
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
+    
+    bool join(int a, int b) 
+    {       
+        a = find(a);
+        b = find(b);
+
+        if(a == b)  return false;
+
+        if(size[a] > size[b])
+        {
+            size[a] += size[b];
+            size[b] = 0;
+
+            parent[b] = a;
+        }
+        else
+        {
+            size[b] += size[a];
+            size[a] = 0;
+
+            parent[a] = b;
+        }
+
+        return true;
+    }
+
+    int find(int a) 
+    {
+        if (parent[a] != a)
+            parent[a] = find(parent[a]);
+        return parent[a];
+    }
+
+};
+
+
+// template 2
 int parent[SZ], sizee[SZ];
 
 int findParent(int x)
