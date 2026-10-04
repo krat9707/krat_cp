@@ -1,0 +1,15 @@
+    pair<ll, ll> f(ll n)
+    {
+        if(n == 0)
+            return {0, 1};
+
+        pair<ll, ll> x = f(n / 2);
+
+        ll y = (x.first * (2LL * x.second % mod - x.first + mod) % mod) % mod;
+        ll z = (0LL + (x.first * x.first) % mod + (x.second * x.second) % mod) % mod;
+
+        if(n % 2)
+            return {z, (y + z) % mod};
+        else
+            return {y, z};
+    }
