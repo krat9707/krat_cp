@@ -1,0 +1,98 @@
+class lazyTree {
+    void apply(int node, int val, int l, int r)
+    {
+        sum[node] += val * (r - l + 1);
+        lazy[node] += val;
+    }
+
+    void push(int node, int l, int r)
+    {
+        if(lazy[node] == 0)
+            return;
+
+        int mid = l + (r - l) / 2;
+        
+        apply(2 * node, lazy[node], l, mid);
+        apply(2 * node + 1, lazy[node], mid + 1, r);
+        
+        lazy[node] = 0;
+        return;
+    }
+    
+    void build(vector<int>& arr, int curr, int l, int r)
+    {
+        if(l == r)
+        {
+            sum[curr] = arr[l];
+            return;
+        }
+        
+        int mid = l + (r - l) / 2;
+
+        build(arr, 2 * curr, l, mid);
+        build(arr, 2 * curr + 1, mid + 1, r);
+
+        sum[curr] = sum[2 * curr] + sum[2 * curr + 1];
+        return;
+    }
+
+    void update(int node, int val, int l, int r, int ql, int qr)
+    {
+        if(l > qr || r < ql)
+            return;
+        else if(l >= ql && r <= qr)
+        {
+            apply(node, val, l, r);
+            return;
+        }
+
+        push(node, l, r);
+        int mid = l + (r - l) / 2;
+
+        update(2 * node, val, l, mid, ql, qr);
+        update(2 * node + 1, val, mid + 1, r, ql, qr);
+
+        sum[node] = sum[2 * node] + sum[2 * node + 1];
+        return;
+    }
+
+    int get(int node, int l, int r, int ql, int qr)
+    {
+        if(l > qr || r < ql)
+            return 0;
+        else if(l >= ql && r <= qr)
+            return sum[node];
+
+        push(node, l, r);
+        int mid = l + (r - l) / 2;
+
+        return get(2 * node, l, mid, ql, qr) + get(2 * node + 1, mid + 1, r, ql, qr);
+    }
+    
+public:
+    int n;
+    vector<int> sum;
+    vector<int> lazy;
+
+    lazyTree(int size)
+    {
+        n = size;
+        sum.resize(4 * n, 0);
+        lazy.resize(4 * n, 0);
+    }
+
+    void build(vector<int>& arr)
+    {
+        build(arr, 1, 0, n - 1);
+    }
+
+    void update(int val, int l, int r)
+    {
+        update(1, val, 0, n - 1, l, r);
+    }
+
+    int get(int l, int r)
+    {
+        return get(1, 0, n - 1, l, r);
+    }
+};
