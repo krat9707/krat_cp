@@ -1,0 +1,62 @@
+void compute(int lps[], string& s)
+{
+    int m = s.size();
+    lps[0] = 0;
+    int suf = 1;
+    int pre = 0;
+
+    while(suf < m)
+    {
+        if(s[pre] == s[suf])
+        {
+            lps[suf] = pre + 1;
+            pre++;
+            suf++;
+        }
+        else
+        {
+            if(pre != 0)
+            {
+                pre = lps[pre - 1];
+            }
+            else
+            {
+                lps[suf] = 0;
+                suf++;
+            }
+        }
+    }
+}
+
+bool KMP(string& text, string& pat)
+{
+    int n = text.size();
+    int m = pat.size();
+
+    int lps[m];
+
+    compute(lps, pat); //precomputing lps
+
+    int patInd = 0;
+    int textInd = 0;
+
+    while(textInd < n && patInd < m)
+    {
+        if(text[textInd] == pat[patInd])
+        {
+            textInd++;
+            patInd++;
+        }
+        else
+        {
+            if(patInd != 0)
+            {
+                patInd = lps[patInd - 1];
+            }
+            else
+                textInd++; // patInd is at 0 for else condition
+        }
+    }
+
+    return (j == m);
+}
